@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: MenuMagic_development
+
+test:
+  <<: *default
+  database: MenuMagic_test
+
+production:
+  <<: *default
+  database: MenuMagic_production
+  username: MenuMagic
+  password: <%= ENV["MENUMAGIC_DATABASE_PASSWORD"] %>
