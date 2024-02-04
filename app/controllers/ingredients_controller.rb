@@ -3,7 +3,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients or /ingredients.json
   def index
-    @ingredients = Ingredient.all
+    @ingredients = Ingredient.all.order(:name)
   end
 
   # GET /ingredients/new
