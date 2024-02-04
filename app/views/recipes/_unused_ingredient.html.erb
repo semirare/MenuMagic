@@ -1,0 +1,7 @@
+<div class="flex justify-between gap-4", id=<%= "unused_ingredient_#{ingredient.id}" %>>
+    <p><%= ingredient.name %></p>
+    <%= button_to recipe_ingredients_path(recipe_ingredient: {ingredient_id: ingredient.id, recipe_id:}), method: :post, 
+        data: { turbo: true } do %>
+        <i class="fas fa-plus text-green-500"></i>
+    <% end %>
+</div>

@@ -1,0 +1,6 @@
+<div class="flex justify-between gap-4" id=<%= dom_id(recipe_ingredient)%>>
+    <p><%= recipe_ingredient.ingredient.name %></p>
+    <%= button_to recipe_ingredient_path(recipe_ingredient), method: :delete, data: { turbo: true } do %>
+        <i class="fas fa-trash text-red-500"></i>
+    <% end %>
+</div>

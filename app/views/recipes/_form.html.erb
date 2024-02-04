@@ -13,33 +13,22 @@
 
   <div class="my-5 flex items-center gap-2">
     <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 w-full" %>
-  </div>
-
-  <div class="flex my-5 justify-between">
-    <div class="flex flex-col">
-      <% recipe.ingredients.each do |ingredient| %>
-        <div class="flex justify-between gap-4">
-          <p><%= ingredient.name %></p>
-          <%= button_to ingredient_path(ingredient), method: :delete do %>
-            <i class="fas fa-trash text-red-500"></i>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-    <div class="flex flex-col">
-      <% @ingredients_not_in_recipe.each do |ingredient| %>
-        <div class="flex justify-between gap-4">
-          <p><%= ingredient.name %></p>
-         <%= button_to recipe_ingredients_path(recipe_ingredient: {ingredient_id: ingredient.id, recipe_id: recipe.id}), method: :post do %>
-            <i class="fas fa-plus text-green-500"></i>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="flex gap-2">
-    <%= form.submit class: "rounded-lg bg-blue-600 text-white p-2" %>
-    <%= link_to "Back to Recipe List", recipes_path, class: "rounded-lg bg-blue-500 text-white p-2" %>
+    <%= form.submit "Update Name", class: "rounded-lg bg-blue-600 text-white p-2" %>
   </div>
 <% end %>
+<div class="flex my-5 justify-between">
+    <%= turbo_frame_tag 'included_ingredients' do %>
+      <div class="flex flex-col">
+        <% recipe.recipe_ingredients.each do |recipe_ingredient| %>
+          <%= render 'included_ingredient', recipe_ingredient: %>
+        <% end %>
+      </div>
+    <% end %>
+    <%= turbo_frame_tag 'unused_ingredients' do %>
+      <div class="flex flex-col">
+        <% @ingredients_not_in_recipe.each do |ingredient| %>
+          <%= render 'unused_ingredient', ingredient: , recipe_id: recipe.id %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
