@@ -11,17 +11,18 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  <div class="my-5 flex items-center gap-2">
+    <%= form.label :name, "Name:", class: "text-xl text-bold" %>
+    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 w-full" %>
   </div>
 
-  <div class="field">
+  <div class="field my-5">
     <%= form.label :ingredient_ids, "Select Ingredients" %>
     <%= form.collection_select :ingredient_ids, Ingredient.all, :id, :name, {}, { multiple: true } %>
   </div>
 
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <div class="flex gap-2">
+    <%= form.submit class: "rounded-lg bg-blue-600 text-white p-2" %>
+    <%= link_to "Back to Recipe List", recipes_path, class: "rounded-lg bg-blue-500 text-white p-2" %>
   </div>
 <% end %>
