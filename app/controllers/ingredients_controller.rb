@@ -21,7 +21,11 @@ class IngredientsController < ApplicationController
 
     respond_to do |format|
       if @ingredient.save
+        if request.format.turbo_stream?
+          @ingredients = Ingredient.all
+        end
         format.html { redirect_to ingredients_url, notice: "Ingredient was successfully created." }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('ingredient_list_turbo_frame', partial: 'ingredient_list' )}
         format.json { render :index, status: :created, location: @ingredient }
       else
         format.html { render :new, status: :unprocessable_entity }
