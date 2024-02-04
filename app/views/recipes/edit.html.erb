@@ -1,3 +1,22 @@
 <div class="mx-auto md:w-2/3 w-full flex flex-col">
   <%= render "form", recipe: @recipe %>
+  <div class="flex my-5 justify-between">
+    <%= turbo_frame_tag 'included_ingredients' do %>
+      <div class="flex flex-col">
+        <% @recipe.recipe_ingredients.each do |recipe_ingredient| %>
+          <%= render 'included_ingredient', recipe_ingredient: %>
+        <% end %>
+      </div>
+      <div class="my-2">
+        <%= render 'ingredients/form', ingredient: Ingredient.new %>
+      </div>
+    <% end %>
+    <%= turbo_frame_tag 'unused_ingredients' do %>
+      <div class="flex flex-col">
+        <% @ingredients_not_in_recipe.each do |ingredient| %>
+          <%= render 'unused_ingredient', ingredient: , recipe_id: @recipe.id %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

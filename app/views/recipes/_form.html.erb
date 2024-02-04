@@ -16,19 +16,3 @@
     <%= form.submit "Update Name", class: "rounded-lg bg-blue-600 text-white p-2" %>
   </div>
 <% end %>
-<div class="flex my-5 justify-between">
-    <%= turbo_frame_tag 'included_ingredients' do %>
-      <div class="flex flex-col">
-        <% recipe.recipe_ingredients.each do |recipe_ingredient| %>
-          <%= render 'included_ingredient', recipe_ingredient: %>
-        <% end %>
-      </div>
-    <% end %>
-    <%= turbo_frame_tag 'unused_ingredients' do %>
-      <div class="flex flex-col">
-        <% @ingredients_not_in_recipe.each do |ingredient| %>
-          <%= render 'unused_ingredient', ingredient: , recipe_id: recipe.id %>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
