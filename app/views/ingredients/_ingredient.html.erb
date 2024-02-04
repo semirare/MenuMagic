@@ -1,3 +1,10 @@
-<%= link_to edit_ingredient_path(ingredient), disabled: action_name != "show", class: "border border-blue-500 rounded-xl p-2" do %>
-  <%= ingredient.name %>
-<% end %>
+<div class="border border-blue-500 rounded-xl p-2 flex justify-between">
+  <%= link_to edit_ingredient_path(ingredient), disabled: action_name != "show", class: "w-full" do %>
+    <div>
+      <%= ingredient.name %>
+    </div>
+  <% end %>
+  <%= button_to ingredient_path(ingredient), method: :delete do %>
+    <i class="fas fa-trash"></i>
+  <% end %>
+</div>
