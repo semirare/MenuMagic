@@ -1,13 +1,9 @@
 class IngredientsController < ApplicationController
-  before_action :set_ingredient, only: %i[ show edit update destroy ]
+  before_action :set_ingredient, only: %i[ edit update destroy ]
 
   # GET /ingredients or /ingredients.json
   def index
     @ingredients = Ingredient.all
-  end
-
-  # GET /ingredients/1 or /ingredients/1.json
-  def show
   end
 
   # GET /ingredients/new
