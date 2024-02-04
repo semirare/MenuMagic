@@ -17,6 +17,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1/edit
   def edit
+    @ingredients_not_in_recipe = Ingredient.not_in_recipe(@recipe.id)
   end
 
   # POST /recipes or /recipes.json

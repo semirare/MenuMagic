@@ -4,7 +4,7 @@
       <%= ingredient.name %>
     </div>
   <% end %>
-  <%= button_to ingredient_path(ingredient), method: :delete do %>
+  <%= button_to recipe_ingredient_path(ingredient), method: :delete do %>
     <i class="fas fa-trash"></i>
   <% end %>
 </div>
