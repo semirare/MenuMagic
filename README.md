@@ -45,10 +45,9 @@ Follow these steps to set up MenuMagic on your local machine:
 
 ## Usage
 
-1. Sign up for a new account or log in if you already have one.
-2. Add your favorite recipes, including ingredients and instructions.
-3. Navigate to the meal planning section to generate randomized meal plans.
-4. Enjoy a diverse and exciting menu based on your recipes.
+1. Add your favorite recipes, including ingredients.
+2. Navigate to the meal planning section to generate randomized meal plans. (coming soon)
+3. Enjoy a diverse and exciting menu based on your recipes.
 
 ## Contributing
 
