@@ -10,8 +10,6 @@ Welcome to MenuMagic, your go-to Rails project for managing recipes and creating
 
 - **Meal Planning**: Generate randomized meal plans based on your saved recipes. This feature helps you break the monotony and adds excitement to your daily meals.
 
-- **User Authentication**: Secure user accounts with authentication to ensure that each user has a personalized experience with their own set of recipes and meal plans.
-
 - **User-Friendly Interface**: An intuitive and user-friendly interface makes it easy for users to navigate, add recipes, and generate meal plans.
 
 ## Installation
