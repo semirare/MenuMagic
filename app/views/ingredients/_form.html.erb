@@ -13,7 +13,9 @@
     <% end %>
     <div class="flex w-full gap-2">
       <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none" %>
-      <%= form.submit "New Ingredient", class: "rounded-lg p-2 bg-blue-600 text-white font-medium" %>
+      <button type='submit'>
+        <i class="fa-solid fa-plus text-green-500"></i>
+      </button>
     </div>
   </div>
 <% end %>
