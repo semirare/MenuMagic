@@ -1,10 +1,7 @@
+<% delete_path = params[:controller] == 'ingredients' ? ingredient_path(ingredient) : recipe_ingredient_path(ingredient) %>
 <div class="border border-blue-500 rounded-xl p-2 flex justify-between">
-  <%= link_to edit_ingredient_path(ingredient), disabled: action_name != "show", class: "w-full" do %>
-    <div>
-      <%= ingredient.name %>
-    </div>
-  <% end %>
-  <%= button_to recipe_ingredient_path(ingredient), method: :delete do %>
+  <p><%= ingredient.name %></p>
+  <%= button_to delete_path, method: :delete do %>
     <i class="fas fa-trash"></i>
   <% end %>
 </div>
