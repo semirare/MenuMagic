@@ -13,6 +13,10 @@
 
   <div class="my-5 flex items-center gap-2">
     <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 w-full" %>
-    <%= form.submit "Update Name", class: "rounded-lg bg-blue-600 text-white p-2" %>
+    <%= form.submit "Save", class: "rounded-lg bg-blue-600 text-white p-2 min-w-32" %>
+    <% if params[:action] == 'edit' %>
+      <%= link_to "Delete", recipe_path(recipe), data: { turbo: true, turbo_method: :delete },
+       class: "rounded-lg bg-red-500 text-white p-2 min-w-32 flex justify-center" %>
+    <% end %>
   </div>
 <% end %>
