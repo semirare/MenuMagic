@@ -28,7 +28,9 @@ class IngredientsController < ApplicationController
         format.turbo_stream { render turbo_stream: turbo_stream.replace('ingredient_list_turbo_frame', partial: 'ingredient_list' )}
         format.json { render :index, status: :created, location: @ingredient }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :index, flash: "Ingredient name can't be blank" }
+        format.turbo_stream { render turbo_stream: turbo_stream.append('ingredient_index_flash_frame', 
+          partial: 'shared/turbo_notice', locals: { errors: @ingredient.errors }) }
         format.json { render json: @ingredient.errors, status: :unprocessable_entity }
       end
     end

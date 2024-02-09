@@ -5,4 +5,6 @@ class Ingredient < ApplicationRecord
   scope :not_in_recipe, -> (recipe_id) {
     where.not(id: RecipeIngredient.select(:ingredient_id).where(recipe_id: recipe_id))
   }
+
+  validates :name, presence: true
 end
