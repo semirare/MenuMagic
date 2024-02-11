@@ -1,17 +1,20 @@
 <% quantities = [nil, '1/8', '1/4', '3/8', '1/2', '5/8', '3/4', '7/8', '1', '2', '3', '4', '5'] %>
-<div class="flex justify-between gap-2 w-full items-center py-1" id="<%= dom_id(recipe_ingredient) %>">
-    <p class="w-3/5 text-wrap break-normal overflow-hidden truncate"><%= recipe_ingredient.ingredient.name %></p>
-    <div class="flex-grow-0 w-1/4">
-        <%= form_with(model: recipe_ingredient, class: "flex justify-between gap-4") do |form| %>
-            <%= form.select :quantity,  quantities, { selected: recipe_ingredient.quantity } %>
-            <%= form.select :ingredient_unit, IngredientUnit.all.order(:type).order(:name)
-                .map { |unit| [unit.name, unit.id]}, { selected: recipe_ingredient.ingredient_unit } %>
-        <% end %>
-    </div>
-    <div class="flex-grow-0 w-1/10">
-        <%= button_to recipe_ingredient_path(recipe_ingredient), method: :delete, data: { turbo: true },
-            class: "" do %>
-            <i class="fas fa-trash text-red-500"></i>
-        <% end %>
-    </div>
-</div>
+<%= form_with(model: recipe_ingredient, class: "form-recipe-ingredient flex justify-between gap-4", data: { turbo: true }) do |form| %>
+    <p class="w-3/5 text-wrap break-normal overflow-hidden truncate"><%= recipe_ingredient.ingredient.name %></p>       
+    <%= form.select :quantity, quantities.map { |quantity| [fraction_to_float(quantity), fraction_to_float(quantity)] }, { selected: recipe_ingredient.quantity.to_s } %>
+    <%= form.select :ingredient_unit_id, IngredientUnit.all.order(:type).order(:name).map { |unit| [unit.name, unit.id]}, { selected: recipe_ingredient.ingredient_unit_id } %>
+    <%= form.submit "Update", class: 'hidden' %>
+<% end %>
+<%= button_to recipe_ingredient_path(recipe_ingredient), method: :delete, data: { turbo: true }, class: "" do %>
+    <i class="fas fa-trash text-red-500"></i>
+<% end %>
+
+<script>
+document.addEventListener("turbolinks:load", function() {
+  document.querySelectorAll(".form-recipe-ingredient").forEach(function(form) {
+    form.addEventListener("change", function(event) {
+      form.submit();
+    });
+  });
+});
+</script>

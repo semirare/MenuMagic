@@ -40,6 +40,7 @@ class RecipesController < ApplicationController
 
   # PATCH/PUT /recipes/1 or /recipes/1.json
   def update
+    puts "Params: #{recipe_params.inspect}"
     respond_to do |format|
       if @recipe.update(recipe_params)
         format.html { redirect_to recipes_url, notice: "#{@recipe.name} was successfully updated." }
