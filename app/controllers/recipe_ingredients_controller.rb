@@ -12,7 +12,9 @@ class RecipeIngredientsController < ApplicationController
         format.json { render :show, status: :created, location: @recipe_ingredient.recipe }
       else
         format.html do
-          redirect_to recipe_path(params[:recipe_id]), alert: "There was an error saving the recipe ingredient."
+          redirect_back fallback_location: recipes_path,
+                        alert: "There was an error saving the recipe ingredient.",
+                        status: :unprocessable_entity
         end
         format.json { render json: @recipe_ingredient.errors, status: :unprocessable_entity }
       end
