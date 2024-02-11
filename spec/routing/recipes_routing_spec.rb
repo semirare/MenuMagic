@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe RecipesController, type: :routing do
@@ -17,7 +19,6 @@ RSpec.describe RecipesController, type: :routing do
     it "routes to #edit" do
       expect(get: "/recipes/1/edit").to route_to("recipes#edit", id: "1")
     end
-
 
     it "routes to #create" do
       expect(post: "/recipes").to route_to("recipes#create")

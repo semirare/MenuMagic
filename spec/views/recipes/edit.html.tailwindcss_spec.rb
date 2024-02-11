@@ -1,11 +1,13 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 RSpec.describe "recipes/edit", type: :view do
-  let(:recipe) {
+  let(:recipe) do
     Recipe.create!(
       name: "MyString"
     )
-  }
+  end
 
   before(:each) do
     assign(:recipe, recipe)
@@ -15,7 +17,6 @@ RSpec.describe "recipes/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", recipe_path(recipe), "post" do
-
       assert_select "input[name=?]", "recipe[name]"
     end
   end

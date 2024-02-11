@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class IngredientsController < ApplicationController
-  before_action :set_ingredient, only: %i[ edit update destroy ]
+  before_action :set_ingredient, only: %i[edit update destroy]
 
   # GET /ingredients or /ingredients.json
   def index
@@ -12,8 +14,7 @@ class IngredientsController < ApplicationController
   end
 
   # GET /ingredients/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /ingredients or /ingredients.json
   def create
@@ -21,11 +22,11 @@ class IngredientsController < ApplicationController
 
     respond_to do |format|
       if @ingredient.save
-        if request.format.turbo_stream?
-          @ingredients = Ingredient.all
-        end
+        @ingredients = Ingredient.all if request.format.turbo_stream?
         format.html { redirect_to ingredients_url, notice: "Ingredient was successfully created." }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace('ingredient_list_turbo_frame', partial: 'ingredient_list' )}
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("ingredient_list_turbo_frame", partial: "ingredient_list")
+        end
         format.json { render :index, status: :created, location: @ingredient }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -58,13 +59,14 @@ class IngredientsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ingredient
-      @ingredient = Ingredient.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def ingredient_params
-      params.require(:ingredient).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ingredient
+    @ingredient = Ingredient.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def ingredient_params
+    params.require(:ingredient).permit(:name)
+  end
 end

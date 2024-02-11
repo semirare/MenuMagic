@@ -1,10 +1,12 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require "rails_helper"
 
 RSpec.describe "ingredients/show", type: :view do
   before(:each) do
     assign(:ingredient, Ingredient.create!(
-      name: "Name"
-    ))
+                          name: "Name"
+                        ))
   end
 
   it "renders attributes in <p>" do

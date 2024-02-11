@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RecipeIngredientsController < ApplicationController
   # POST /recipe_ingredients or /recipe_ingredients.json
   def create
@@ -9,7 +11,9 @@ class RecipeIngredientsController < ApplicationController
         format.turbo_stream { render_create_turbo }
         format.json { render :show, status: :created, location: @recipe_ingredient.recipe }
       else
-        format.html { redirect_to recipe_path(params[:recipe_id]), alert: 'There was an error saving the recipe ingredient.' }
+        format.html do
+          redirect_to recipe_path(params[:recipe_id]), alert: "There was an error saving the recipe ingredient."
+        end
         format.json { render json: @recipe_ingredient.errors, status: :unprocessable_entity }
       end
     end
@@ -36,17 +40,17 @@ class RecipeIngredientsController < ApplicationController
 
   def render_create_turbo
     render turbo_stream: [
-      turbo_stream.append('included_ingredients', partial: 'recipes/included_ingredient',
-                                                  locals: {recipe_ingredient: @recipe_ingredient}),
+      turbo_stream.append("included_ingredients", partial: "recipes/included_ingredient",
+                                                  locals: { recipe_ingredient: @recipe_ingredient }),
       turbo_stream.remove("unused_ingredient_#{@recipe_ingredient.ingredient.id}")
     ]
   end
 
   def render_delete_turbo
     render turbo_stream: [
-      turbo_stream.append('unused_ingredients', partial: 'recipes/unused_ingredient',
-                                                locals: {ingredient: @recipe_ingredient.ingredient,
-                                                         recipe_id: @recipe_ingredient.recipe_id }),
+      turbo_stream.append("unused_ingredients", partial: "recipes/unused_ingredient",
+                                                locals: { ingredient: @recipe_ingredient.ingredient,
+                                                          recipe_id: @recipe_ingredient.recipe_id }),
       turbo_stream.remove(@recipe_ingredient)
     ]
   end
