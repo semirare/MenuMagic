@@ -18,6 +18,8 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1/edit
   def edit
+    @recipe.recipe_ingredients.order(:id)
+    @recipe.recipe_ingredients.build if @recipe.recipe_ingredients.empty?
     @ingredients_not_in_recipe = Ingredient.not_in_recipe(@recipe.id)
   end
 
@@ -66,8 +68,12 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
   end
 
+  def save_recipe_ingredients
+    @recipe.recipe_ingredients.each(&:save)
+  end
+
   # Only allow a list of trusted parameters through.
   def recipe_params
-    params.require(:recipe).permit(:name, ingredient_ids: [])
+    params.require(:recipe).permit(:name, recipe_ingredients_attributes: %i[id quantity ingredient_unit_id _destroy])
   end
 end

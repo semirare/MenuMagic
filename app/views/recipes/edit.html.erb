@@ -1,24 +1,16 @@
-<div class="mx-auto md:w-2/3 w-full flex flex-col">
-  <%= render "form", recipe: @recipe %>
-  <div class="flex my-5 justify-between gap-8">
-    <%= turbo_frame_tag 'included_ingredients', class: 'w-3/4' do %>
-      <div class="flex flex-col" id="included_ingredients">
-        <% @recipe.recipe_ingredients.each do |recipe_ingredient| %>
-          <%= render 'included_ingredient', recipe_ingredient: %>
+<% quantities = [nil, '1/8', '1/4', '3/8', '1/2', '5/8', '3/4', '7/8', '1', '2', '3', '4', '5'] %>
+<%= form_with(model: @recipe, url: recipe_path(@recipe), method: :patch) do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+    <% @recipe.recipe_ingredients.order(:id).each do |recipe_ingredient| %>
+        <%= form.fields_for :recipe_ingredients, recipe_ingredient do |ingredient_fields| %>
+            <p class="w-3/5 text-wrap break-normal overflow-hidden truncate"><%= recipe_ingredient.ingredient.name %></p>
+            <%= ingredient_fields.select :quantity, quantities.map { |quantity| [fraction_to_float(quantity), fraction_to_float(quantity)] }, { selected: recipe_ingredient.quantity.to_s } %>
+            <%= ingredient_fields.collection_select :ingredient_unit_id, IngredientUnit.all.order(:type).order(:name),
+                                                    :id, :name, { selected: recipe_ingredient.ingredient_unit_id } %>
         <% end %>
-      </div>
-    <% end %>
-    <div class="flex flex-col w-1/4">
-      <%= turbo_frame_tag 'unused_ingredients' do %>
-        <div class="flex flex-col" id="unused_ingredients">
-          <% @ingredients_not_in_recipe.each do |ingredient| %>
-            <%= render 'unused_ingredient', ingredient:, recipe_id: @recipe.id %>
-          <% end %>
-        </div>
-      <% end %>
-      <div class="my-2 w-full">
-        <%= render 'ingredients/form', ingredient: Ingredient.new %>
-      </div>
-    </div>
-  </div>
-</div>
+     <% end %>
+
+  <%= form.submit "Update Recipe" %>
+<% end %>
