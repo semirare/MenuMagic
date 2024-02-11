@@ -33,8 +33,12 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 require "factory_bot_rails"
+require "capybara/rspec"
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+
+  config.include Capybara::RSpecMatchers, type: :view
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
