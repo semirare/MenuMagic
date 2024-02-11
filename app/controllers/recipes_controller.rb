@@ -5,7 +5,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    @recipes = Recipe.all.order(:name)
+    @recipes = Recipe.all.order("LOWER(name) ASC")
   end
 
   # GET /recipes/1 or /recipes/1.json
