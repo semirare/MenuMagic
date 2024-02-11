@@ -3,9 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "/recipes", type: :request do
-  # This should return the minimal set of attributes required to create a valid
-  # Recipe. As you add validations to Recipe, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) do
     {
       name: "MyString"
