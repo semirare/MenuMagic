@@ -1,0 +1,7 @@
+<div class="flex justify-between">
+    <% quantities = ['1/4', '1/2', '3/4', '1', '2'] %>
+    <%= ingredient_form.object.ingredient.name %>
+    <%= ingredient_form.select :quantity, quantities.map { |fraction| [fraction, fraction_to_float(fraction)] },
+    { selected: ingredient_form.object.quantity.to_s } %>
+    <%= ingredient_form.collection_select :ingredient_unit_id , IngredientUnit.all, :id, :name %>
+</div>

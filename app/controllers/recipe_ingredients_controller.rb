@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class RecipeIngredientsController < ApplicationController
+  before_action :set_recipe_ingredient, only: %i[update destroy]
+
   # POST /recipe_ingredients or /recipe_ingredients.json
   def create
     @recipe_ingredient = RecipeIngredient.new(recipe_ingredient_params)
 
     respond_to do |format|
       if @recipe_ingredient.save
-        format.html { redirect_to recipe_path(@recipe_ingredient.recipe) }
-        format.turbo_stream { render_create_turbo }
+        format.html { redirect_to edit_recipe_path(@recipe_ingredient.recipe) }
         format.json { render :show, status: :created, location: @recipe_ingredient.recipe }
       else
         format.html do
@@ -17,6 +18,22 @@ class RecipeIngredientsController < ApplicationController
                         status: :unprocessable_entity
         end
         format.json { render json: @recipe_ingredient.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    @recipe_ingredient = RecipeIngredient.find(params[:id])
+
+    respond_to do |format|
+      if @recipe_ingredient.update(recipe_ingredient_params)
+        format.js
+      else
+        format.html do
+          redirect_back fallback_location: recipes_path,
+                        alert: "There was an error saving the recipe ingredient.",
+                        status: :unprocessable_entity
+        end
       end
     end
   end
@@ -40,12 +57,8 @@ class RecipeIngredientsController < ApplicationController
     params.require(:recipe_ingredient).permit(:recipe_id, :ingredient_id)
   end
 
-  def render_create_turbo
-    render turbo_stream: [
-      turbo_stream.append("included_ingredients", partial: "recipes/included_ingredient",
-                                                  locals: { recipe_ingredient: @recipe_ingredient }),
-      turbo_stream.remove("unused_ingredient_#{@recipe_ingredient.ingredient.id}")
-    ]
+  def set_recipe_ingredient
+    @recipe_ingredient = RecipeIngredient.find(params[:id])
   end
 
   def render_delete_turbo
