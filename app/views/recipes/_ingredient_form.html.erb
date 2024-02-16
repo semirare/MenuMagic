@@ -1,4 +1,4 @@
-<div class="flex justify-end gap-3 items-center">
+<div class="flex justify-end gap-3 items-center" id="<%="recipe_ingredient_#{ingredient_form.object.id}"%>">
     <% quantities = ['1/4', '1/2', '3/4', '1', '2'] %>
     <%= ingredient_form.object.ingredient.name %>
     <%= ingredient_form.select :quantity, quantities.map { |fraction| [fraction, fraction_to_float(fraction)] },
