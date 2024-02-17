@@ -4,8 +4,7 @@ Rails.application.routes.draw do
   resources :recipe_ingredients
   resources :recipes
   resources :ingredients
-
-  get "planning/index", to: "planning#index", as: "planning"
+  resources :plannings
 
   root "ingredients#index"
 end

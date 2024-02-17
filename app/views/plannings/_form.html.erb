@@ -1,0 +1,7 @@
+<%= form_with(model: @planning) do |form| %>
+  <% @recipes.each do |recipe| %>
+    <%= form.hidden_field :recipe_ids, multiple: true, value: recipe.id %>
+  <% end %>
+
+  <%= form.submit "Save & View Grocery List", class: "p-2 border border-black rounded-xl" %>  
+<% end %>
