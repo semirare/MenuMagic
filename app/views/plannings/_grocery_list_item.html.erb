@@ -1,5 +1,28 @@
-<div class="flex w-full justify-between">
-    <p><%= name %></p>
-    <p><%= quantity %></p>
-    <p><%= unit %>
-</div>
+<button id="mark_item_button_<%= name %>" class="border border-black p-2 w-fit">
+    <div id="<%= "#{name}_div" %>" class="flex items-center gap-5 w-full text-xl">
+        <p><%= name %></p>
+        <p><%= quantity %></p>
+        <p><%= unit %></p>
+    </div>
+</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function toggleBackgroundColor(buttonId) {
+            var name = buttonId.replace("mark_item_button_", "");
+            var div = document.getElementById(name + "_div");
+            div.classList.toggle("bg-green-200");
+            var paragraphs = div.querySelectorAll("p");
+            paragraphs.forEach(function(paragraph) {
+                paragraph.classList.toggle("line-through");
+            });
+        }
+
+        const buttons = document.querySelectorAll("[id^='mark_item_button_']");
+        buttons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                toggleBackgroundColor(this.id);
+            });
+        });
+    });
+</script>
