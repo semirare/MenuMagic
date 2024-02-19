@@ -1,29 +1,7 @@
-<button id="mark_item_button_<%= name %>" class="border border-black p-2 w-fit">
-    <div id="<%= "#{name}_div" %>" class="flex items-center gap-5 w-full text-xl">
+<button data-controller="grocery-list-item" class="border border-black p-2 w-fit">
+    <div data-grocery-list-item-target="container" class="flex items-center gap-5 w-full text-xl">
         <p><%= name %></p>
         <p><%= quantity %></p>
         <p><%= unit %></p>
     </div>
 </button>
-
-<script>
-    setupToggleItems = (function(){
-        function toggleBackgroundColor(buttonId) {
-            const name = buttonId.replace("mark_item_button_", "");
-            const div = document.getElementById(name + "_div");
-            div.classList.toggle("bg-green-200");
-
-            const paragraphs = div.querySelectorAll("p");
-            paragraphs.forEach(function(paragraph) {
-                paragraph.classList.toggle("line-through");
-            });
-        };
-
-        const button = document.getElementById("mark_item_button_<%= name %>");
-        button.addEventListener("click", function() {
-            toggleBackgroundColor(this.id);
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", setupToggleItems);
-</script>
