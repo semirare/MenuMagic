@@ -1,4 +1,4 @@
-<%= form_with(model: @planning) do |form| %>
+<%= form_with(model: @planning, data: { turbo: false }) do |form| %>
   <% @recipes.each do |recipe| %>
     <%= form.hidden_field :recipe_ids, multiple: true, value: recipe.id %>
   <% end %>

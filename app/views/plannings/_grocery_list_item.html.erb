@@ -7,22 +7,23 @@
 </button>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    setupToggleItems = (function(){
         function toggleBackgroundColor(buttonId) {
-            var name = buttonId.replace("mark_item_button_", "");
-            var div = document.getElementById(name + "_div");
+            const name = buttonId.replace("mark_item_button_", "");
+            const div = document.getElementById(name + "_div");
             div.classList.toggle("bg-green-200");
-            var paragraphs = div.querySelectorAll("p");
+
+            const paragraphs = div.querySelectorAll("p");
             paragraphs.forEach(function(paragraph) {
                 paragraph.classList.toggle("line-through");
             });
-        }
+        };
 
-        const buttons = document.querySelectorAll("[id^='mark_item_button_']");
-        buttons.forEach(function(button) {
-            button.addEventListener("click", function() {
-                toggleBackgroundColor(this.id);
-            });
+        const button = document.getElementById("mark_item_button_<%= name %>");
+        button.addEventListener("click", function() {
+            toggleBackgroundColor(this.id);
         });
     });
+
+    document.addEventListener("DOMContentLoaded", setupToggleItems);
 </script>
