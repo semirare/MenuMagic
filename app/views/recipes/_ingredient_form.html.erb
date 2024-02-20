@@ -5,8 +5,9 @@
             <% quantities = ['1/4', '1/2', '3/4', '1', '2'] %>
             <p class="col-span-2 text-wrap break-all"><%= recipe_ingredient.ingredient.name %></p>
             <%= form.select :quantity, quantities.map { |fraction| [fraction, fraction_to_float(fraction)] },
-            { selected: recipe_ingredient.quantity.to_s }, { onchange: "submitForm(this.form)" } %>
-            <%= form.collection_select :ingredient_unit_id , IngredientUnit.all, :id, :name, { onchange: "submitForm(this.form)" } %>
+            { selected: recipe_ingredient.quantity.to_s, include_blank: true }, { onchange: "submitForm(this.form)" } %>
+            <%= form.collection_select :ingredient_unit_id , IngredientUnit.all, :id, :name, { include_blank: true },
+             { onchange: "submitForm(this.form)" } %>
         </div>
     <% end %>
     <%= button_to recipe_ingredient_path(recipe_ingredient), method: :delete do %>
