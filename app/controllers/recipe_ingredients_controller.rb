@@ -24,10 +24,12 @@ class RecipeIngredientsController < ApplicationController
 
   def update
     @recipe_ingredient = RecipeIngredient.find(params[:id])
-
+    puts params
     respond_to do |format|
       if @recipe_ingredient.update(recipe_ingredient_params)
-        format.js
+        puts "Updated"
+        puts @recipe_ingredient
+        format.html
       else
         format.html do
           redirect_back fallback_location: recipes_path,
@@ -54,7 +56,7 @@ class RecipeIngredientsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def recipe_ingredient_params
-    params.require(:recipe_ingredient).permit(:recipe_id, :ingredient_id)
+    params.require(:recipe_ingredient).permit(:recipe_id, :ingredient_id, :quantity, :ingredient_unit_id)
   end
 
   def set_recipe_ingredient
