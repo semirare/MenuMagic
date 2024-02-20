@@ -29,7 +29,8 @@ class PlanningsController < ApplicationController
                             .map do |ingredient_id, recipe_ingredients|
       quantity = recipe_ingredients.map(&:quantity).compact.sum # Remove nil values before summing
       ingredient = Ingredient.find(ingredient_id)
-      unit = IngredientUnit.find(recipe_ingredients.first&.ingredient_unit_id)&.name || "N/A" # Fetch unit from IngredientUnits table
+      unit_id = recipe_ingredients.first&.ingredient_unit_id
+      unit = unit_id ? IngredientUnit.find(unit_id).name : "N/A" # Fetch unit from IngredientUnits table if unit_id is present
       {
         name: ingredient.name,
         quantity:,
