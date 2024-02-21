@@ -1,21 +1,6 @@
 # frozen_string_literal: true
 
 class IngredientsController < ApplicationController
-  before_action :set_ingredient, only: %i[edit update destroy]
-
-  # GET /ingredients or /ingredients.json
-  def index
-    @ingredients = Ingredient.all.order("LOWER(name) ASC")
-  end
-
-  # GET /ingredients/new
-  def new
-    @ingredient = Ingredient.new
-  end
-
-  # GET /ingredients/1/edit
-  def edit; end
-
   # POST /ingredients or /ingredients.json
   def create
     @ingredient = Ingredient.new(ingredient_params.except(:recipe_id))
@@ -37,21 +22,9 @@ class IngredientsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /ingredients/1 or /ingredients/1.json
-  def update
-    respond_to do |format|
-      if @ingredient.update(ingredient_params)
-        format.html { redirect_to ingredient_url(@ingredient), notice: "Ingredient was successfully updated." }
-        format.json { render :show, status: :ok, location: @ingredient }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @ingredient.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # DELETE /ingredients/1 or /ingredients/1.json
   def destroy
+    @ingredient = Ingredient.find(params[:id])
     @ingredient.destroy
 
     respond_to do |format|
@@ -61,11 +34,6 @@ class IngredientsController < ApplicationController
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_ingredient
-    @ingredient = Ingredient.find(params[:id])
-  end
 
   # Only allow a list of trusted parameters through.
   def ingredient_params
