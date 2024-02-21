@@ -18,14 +18,16 @@ class IngredientsController < ApplicationController
 
   # POST /ingredients or /ingredients.json
   def create
-    @ingredient = Ingredient.new(ingredient_params)
+    @ingredient = Ingredient.new(ingredient_params.except(:recipe_id))
 
     respond_to do |format|
       if @ingredient.save
         @ingredients = Ingredient.all if request.format.turbo_stream?
         format.html { redirect_to ingredients_url, notice: "Ingredient was successfully created." }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("ingredient_list_turbo_frame", partial: "ingredient_list")
+          render turbo_stream: turbo_stream.append("unused_ingredients_turbo_frame", partial: "unused_ingredients",
+                                                                                     locals: { ingredient: @ingredient,
+                                                                                               recipe: Recipe.find(params[:recipe_id]) })
         end
         format.json { render :index, status: :created, location: @ingredient }
       else
@@ -67,6 +69,6 @@ class IngredientsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def ingredient_params
-    params.require(:ingredient).permit(:name)
+    params.require(:ingredient).permit(:name, :recipe_id)
   end
 end
