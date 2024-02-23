@@ -8,5 +8,5 @@ Rails.application.routes.draw do
     get "grocery_list", on: :member
   end
 
-  root "ingredients#index"
+  root "recipes#index"
 end

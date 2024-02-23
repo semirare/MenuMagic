@@ -1,7 +1,5 @@
 <%= form_with(model: ingredient, class: "contents", data: { turbo: true }) do |form| %>
-  <% if local_assigns[:recipe_id] %>
-    <% form.hidden_field :recipe_id, value: recipe_id %>
-  <% end %>
+  <% form.hidden_field :recipe_id, value: recipe_id %>
   <div class="flex w-full">
     <% if ingredient.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">

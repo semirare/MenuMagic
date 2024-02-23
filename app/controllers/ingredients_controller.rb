@@ -7,7 +7,6 @@ class IngredientsController < ApplicationController
 
     respond_to do |format|
       if @ingredient.save
-        @ingredients = Ingredient.all if request.format.turbo_stream?
         format.html { redirect_to ingredients_url, notice: "Ingredient was successfully created." }
         format.turbo_stream do
           render turbo_stream: turbo_stream.append("unused_ingredients_turbo_frame", partial: "unused_ingredients",

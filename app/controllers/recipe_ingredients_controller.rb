@@ -10,6 +10,7 @@ class RecipeIngredientsController < ApplicationController
     respond_to do |format|
       if @recipe_ingredient.save
         format.html { redirect_to edit_recipe_path(@recipe_ingredient.recipe) }
+        format.turbo_stream { render_create_turbo }
         format.json { render :show, status: :created, location: @recipe_ingredient.recipe }
       else
         format.html do
@@ -27,8 +28,6 @@ class RecipeIngredientsController < ApplicationController
     puts params
     respond_to do |format|
       if @recipe_ingredient.update(recipe_ingredient_params)
-        puts "Updated"
-        puts @recipe_ingredient
         format.html
       else
         format.html do
@@ -61,6 +60,14 @@ class RecipeIngredientsController < ApplicationController
 
   def set_recipe_ingredient
     @recipe_ingredient = RecipeIngredient.find(params[:id])
+  end
+
+  def render_create_turbo
+    render turbo_stream: [
+      turbo_stream.append("included_ingredients_turbo_frame", partial: "recipes/ingredient_form",
+                                                              locals: { recipe_ingredient: @recipe_ingredient }),
+      turbo_stream.remove("unused_ingredient_#{@recipe_ingredient.ingredient_id}")
+    ]
   end
 
   def render_delete_turbo

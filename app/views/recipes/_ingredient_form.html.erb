@@ -1,20 +1,18 @@
-<%= turbo_frame_tag dom_id(recipe_ingredient) do %>
-    <div class="flex w-1/2 justify-start gap-3 items-center">
-    <%= form_with(model: recipe_ingredient, data: { turbo: true }) do |form| %>
-        <div class="grid grid-cols-4 items-center gap-3">
-            <% quantities = ['1/4', '1/2', '3/4', '1', '2'] %>
-            <p class="col-span-2 text-wrap break-all"><%= recipe_ingredient.ingredient.name %></p>
-            <%= form.select :quantity, quantities.map { |fraction| [fraction, fraction_to_float(fraction)] },
-            { selected: recipe_ingredient.quantity.to_s, include_blank: true }, { onchange: "submitForm(this.form)" } %>
-            <%= form.collection_select :ingredient_unit_id , IngredientUnit.all, :id, :name, { include_blank: true },
-             { onchange: "submitForm(this.form)" } %>
-        </div>
-    <% end %>
-    <%= button_to recipe_ingredient_path(recipe_ingredient), method: :delete do %>
-        <i class="fas fa-trash text-red-500"></i>
-    <% end %>
+<div class="flex w-1/2 justify-start gap-3 items-center" id=<%= dom_id(recipe_ingredient) %>>
+<%= form_with(model: recipe_ingredient, data: { turbo: true }) do |form| %>
+    <div class="grid grid-cols-4 items-center gap-3">
+        <% quantities = ['1/4', '1/2', '3/4', '1', '2'] %>
+        <p class="col-span-2 text-wrap break-all"><%= recipe_ingredient.ingredient.name %></p>
+        <%= form.select :quantity, quantities.map { |fraction| [fraction, fraction_to_float(fraction)] },
+        { selected: recipe_ingredient.quantity.to_s, include_blank: true }, { onchange: "submitForm(this.form)" } %>
+        <%= form.collection_select :ingredient_unit_id , IngredientUnit.all, :id, :name, { include_blank: true },
+            { onchange: "submitForm(this.form)" } %>
     </div>
 <% end %>
+<%= button_to recipe_ingredient_path(recipe_ingredient), method: :delete do %>
+    <i class="fas fa-trash text-red-500"></i>
+<% end %>
+</div>
 
 <script>
 function submitForm(form) {
