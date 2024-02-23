@@ -24,9 +24,11 @@
     </div>
   <% end %>
   <%= turbo_frame_tag "included_ingredients_turbo_frame" do %>
-    <% recipe.recipe_ingredients.each do |recipe_ingredient| %>
-      <%= render 'ingredient_form', recipe_ingredient: %>
-    <% end %>
+    <div class="flex flex-col gap-2" id="used_ingredients">
+      <% recipe.recipe_ingredients.each do |recipe_ingredient| %>
+        <%= render 'ingredient_form', recipe_ingredient: %>
+      <% end %>
+    </div>
   <% end%>
   <%= render "add_ingredients", ingredients: @ingredients_not_in_recipe, recipe_id: recipe.id%>
 </div>

@@ -64,8 +64,8 @@ class RecipeIngredientsController < ApplicationController
 
   def render_create_turbo
     render turbo_stream: [
-      turbo_stream.append("included_ingredients_turbo_frame", partial: "recipes/ingredient_form",
-                                                              locals: { recipe_ingredient: @recipe_ingredient }),
+      turbo_stream.append("used_ingredients", partial: "recipes/ingredient_form",
+                                              locals: { recipe_ingredient: @recipe_ingredient }),
       turbo_stream.remove("unused_ingredient_#{@recipe_ingredient.ingredient_id}")
     ]
   end
