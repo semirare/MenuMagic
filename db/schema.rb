@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_17_063950) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_24_204342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_17_063950) do
     t.integer "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "base_conversion"
     t.index ["type"], name: "index_ingredient_units_on_type"
   end
 
