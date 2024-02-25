@@ -2,7 +2,7 @@
 
 class PlanningsController < ApplicationController
   def new
-    @recipes = Recipe.all.sample(7)
+    @recipes = Recipe.includes(recipe_ingredients: :ingredient_unit).all.sample(7)
     @planning = Planning.new
     @recipes.each do |recipe|
       @planning.recipes << recipe
@@ -29,7 +29,7 @@ class PlanningsController < ApplicationController
                             .map do |ingredient_id, recipe_ingredients|
       {
         name: Ingredient.find(ingredient_id).name,
-        quantity: recipe_ingredients.map(&:quantity).compact.sum,
+        quantity: convert_to_base_unit(recipe_ingredients),
         unit: get_ingredient_unit(recipe_ingredients)
       }
     end
@@ -41,14 +41,24 @@ class PlanningsController < ApplicationController
     params.require(:planning).permit(recipe_ids: [])
   end
 
-  def get_ingredient_unit(recipe_ingredients)
-    unit_id = nil
+  def convert_to_base_unit(recipe_ingredients)
+    total_quantity = 0
     recipe_ingredients.each do |recipe_ingredient|
-      if recipe_ingredient.ingredient_unit_id.present?
-        unit_id = recipe_ingredient.ingredient_unit_id
-        break # Break the loop as soon as a unit_id is found
+      if recipe_ingredient.ingredient_unit.present?
+        total_quantity += recipe_ingredient.quantity / recipe_ingredient.ingredient_unit.base_conversion
       end
     end
-    unit_id ? IngredientUnit.find(unit_id).name : "N/A"
+    total_quantity
+  end
+
+  def get_ingredient_unit(recipe_ingredients)
+    unit = nil
+    recipe_ingredients.each do |recipe_ingredient|
+      if recipe_ingredient.ingredient_unit.present?
+        unit = IngredientUnit.find_by(type: recipe_ingredient.ingredient_unit.type, base_conversion: 1).name
+        break # Break the loop as soon as a unit type is found
+      end
+    end
+    unit || "N/A"
   end
 end

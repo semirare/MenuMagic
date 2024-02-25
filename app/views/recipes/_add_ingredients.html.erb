@@ -1,7 +1,7 @@
 <h1 class="text-2xl font-bold text-center mt-8">Add Ingredients</h1>
     <%= turbo_frame_tag "unused_ingredients_turbo_frame" do %>
         <div class="flex gap-2" id="unused_ingredients">
-            <% ingredients.each do |ingredient| %>
+            <% ingredients&.each do |ingredient| %>
                 <%= render 'unused_ingredient', ingredient: ingredient, recipe_id: %>
             <% end %>
         </div>
