@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :recipes
   resources :ingredients
   resources :plannings do
+    resources :planning_recipes, on: :member
     get "grocery_list", on: :member
   end
 

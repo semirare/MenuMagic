@@ -1,26 +1,27 @@
 # frozen_string_literal: true
 
 class PlanningsController < ApplicationController
-  def new
+
+  def create
     @recipes = Recipe.includes(recipe_ingredients: :ingredient_unit).all.sample(7)
     @planning = Planning.new
     @recipes.each do |recipe|
       @planning.recipes << recipe
     end
-  end
-
-  def create
-    @planning = Planning.new(planning_params)
 
     respond_to do |format|
       if @planning.save
-        format.html { redirect_to grocery_list_planning_path(@planning) }
+        format.html { redirect_to planning_path(@planning) }
         format.json { render json: @planning }
       else
-        format.html { render :new, status: :unprocessable_entity, errors: @planning.errors }
+        format.html { redirect_to root_path, notice: { error: "There was an error creating your plan. Please try again."} }
         format.json { render json: @planning.errors }
       end
     end
+  end
+
+  def show
+    @planning = Planning.find(params[:id])
   end
 
   def grocery_list
@@ -35,10 +36,22 @@ class PlanningsController < ApplicationController
     end
   end
 
+  def reroll
+    @planning = Planning.new(planning_params.except(:reroll_id))
+    old_recipe = @planning.planning_recipes.find_by(recipe_id: planning_params[:reroll_id])
+    new_recipe = Recipe.sample
+    if old_recipe.update(recipe_id: new_recipe.id)
+      render turbo_stream: turbo_stream.replace("recipe_card_#{old_recipe.recipe_id}", 'recipe_card',
+                                                locals: { recipe: new_recipe })
+    else
+      redirect_back fallback_location: plannings_path, flash: { error: 'There was a problem rerolling your recipe' }
+    end
+  end
+
   private
 
   def planning_params
-    params.require(:planning).permit(recipe_ids: [])
+    params.require(:planning).permit(:reroll_id, recipe_ids: [])
   end
 
   def convert_to_base_unit(recipe_ingredients)
