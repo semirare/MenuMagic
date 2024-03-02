@@ -18,9 +18,9 @@ RSpec.describe "recipes/edit.html.erb", type: :view do
   end
 
   it "renders the included ingredients" do
-    expect(rendered).to have_selector("div#included_ingredients")
+    expect(rendered).to have_selector("div#used_ingredients")
     recipe.recipe_ingredients.each do |recipe_ingredient|
-      expect(rendered).to have_selector("div#included_ingredients", text: recipe_ingredient.ingredient.name)
+      expect(rendered).to have_selector("div#used_ingredients", text: recipe_ingredient.ingredient.name)
     end
   end
 

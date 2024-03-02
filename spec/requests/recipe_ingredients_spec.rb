@@ -3,9 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "/recipe_ingredients", type: :request do
+  let(:recipe) { create(:recipe) }
+
   let(:valid_attributes) do
     {
-      recipe_id: create(:recipe).id,
+      recipe_id: recipe.id,
       ingredient_id: create(:ingredient).id,
       quantity: 1,
       ingredient_unit_id: create(:ingredient_unit).id
@@ -22,6 +24,7 @@ RSpec.describe "/recipe_ingredients", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new RecipeIngredient" do
+        recipe
         expect do
           post recipe_ingredients_url, params: { recipe_ingredient: valid_attributes }
         end.to change(RecipeIngredient, :count).by(1)
@@ -29,7 +32,7 @@ RSpec.describe "/recipe_ingredients", type: :request do
 
       it "redirects to the recipe" do
         post recipe_ingredients_url, params: { recipe_ingredient: valid_attributes }
-        expect(response).to redirect_to(recipe_path(RecipeIngredient.last.recipe))
+        expect(response).to redirect_to(edit_recipe_path(RecipeIngredient.last.recipe))
       end
     end
 
