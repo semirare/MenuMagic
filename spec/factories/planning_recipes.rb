@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :planning_recipe do
-    planning_id { 1 }
-    recipe_id { 1 }
+    planning { create(:planning) }
+    recipe { create(:recipe) }
   end
 end
