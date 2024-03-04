@@ -53,11 +53,14 @@ RSpec.describe "/recipe_ingredients", type: :request do
   xdescribe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) do
-        skip("Add a hash of attributes valid for your model")
+        {
+          quantity: 2,
+          ingredient_unit_id: create(:ingredient_unit).id
+        }
       end
 
       it "updates the requested recipe_ingredient" do
-        recipe_ingredient = RecipeIngredient.create! valid_attributes
+        recipe_ingredient = RecipeIngredient.create! valid_attributes2684
         patch recipe_ingredient_url(recipe_ingredient), params: { recipe_ingredient: new_attributes }
         recipe_ingredient.reload
         skip("Add assertions for updated state")
