@@ -23,10 +23,12 @@ RSpec.describe "/planning_recipes", type: :request do
 
       it "replace the recipe card with a new one" do
         planning_recipe = planning.planning_recipes.first
+        old_id = planning_recipe.recipe.id
         patch planning_planning_recipe_path(planning, planning_recipe)
         planning_recipe.reload
         expect(response).to be_successful
-        expect(response.media_type).media_type
+        expect(response.media_type).to eq('text/vnd.turbo-stream.html')
+        expect(response.body.include?("recipe_card_recipe_#{old_id}")).to eq(true)
       end
     end
   end
