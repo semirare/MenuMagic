@@ -16,7 +16,4 @@ class PlanningRecipesController < ApplicationController
       redirect_back fallback_location: root_path, flash: { error: 'There was a problem re-rolling your recipe' }
     end
   end
-
-  private
-
 end
