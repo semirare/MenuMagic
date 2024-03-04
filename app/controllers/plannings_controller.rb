@@ -11,7 +11,7 @@ class PlanningsController < ApplicationController
 
     respond_to do |format|
       if @planning.save
-        format.html { redirect_to planning_path(@planning) }
+        format.html { redirect_to edit_planning_path(@planning) }
         format.json { render json: @planning }
       else
         format.html { redirect_to root_path, notice: { error: "There was an error creating your plan. Please try again."} }
@@ -20,11 +20,11 @@ class PlanningsController < ApplicationController
     end
   end
 
-  def show
+  def edit
     @planning = Planning.find(params[:id])
   end
 
-  def grocery_list
+  def show
     @planning = Planning.find(params[:id])
     @ingredients = @planning.recipes.includes(:ingredients).map(&:recipe_ingredients).flatten.group_by(&:ingredient_id)
                             .map do |ingredient_id, recipe_ingredients|
@@ -36,22 +36,10 @@ class PlanningsController < ApplicationController
     end
   end
 
-  def reroll
-    @planning = Planning.new(planning_params.except(:reroll_id))
-    old_recipe = @planning.planning_recipes.find_by(recipe_id: planning_params[:reroll_id])
-    new_recipe = Recipe.sample
-    if old_recipe.update(recipe_id: new_recipe.id)
-      render turbo_stream: turbo_stream.replace("recipe_card_#{old_recipe.recipe_id}", 'recipe_card',
-                                                locals: { recipe: new_recipe })
-    else
-      redirect_back fallback_location: plannings_path, flash: { error: 'There was a problem rerolling your recipe' }
-    end
-  end
-
   private
 
   def planning_params
-    params.require(:planning).permit(:reroll_id, recipe_ids: [])
+    params.require(:planning).permit(recipe_ids: [])
   end
 
   def convert_to_base_unit(recipe_ingredients)
