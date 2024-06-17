@@ -58,7 +58,7 @@ class PlanningsController < ApplicationController
 
   def convert_to_readable_unit(recipe_ingredients)
     total_quantity = convert_to_base_unit(recipe_ingredients)
-    return { quantity: total_quantity, unit: 'N/A' } unless recipe_ingredients.first.ingredient_unit.present?
+    return { quantity: total_quantity, unit: 'Units' } unless recipe_ingredients.first.ingredient_unit.present?
 
     type = recipe_ingredients.first.ingredient_unit.type
     options = IngredientUnit.where(type:).order(base_conversion: :desc)
@@ -68,7 +68,7 @@ class PlanningsController < ApplicationController
       end
     end
 
-    { quantity: total_quantity, unit: 'N/A' }
+    { quantity: total_quantity, unit: 'Units' }
   end
 
 end
