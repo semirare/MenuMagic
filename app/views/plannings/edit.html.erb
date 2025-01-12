@@ -1,8 +1,14 @@
+<% days = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday] %>
 <div class="flex flex-col items-center gap-5">
   <p class="text-4xl">Weekly Plan</p>
   <% @planning.recipes.each do |recipe| %>
     <%= render 'recipe_card', recipe: recipe %>
   <% end %>
+  <div class="flex flex-col border border-2 w-full gap-2 p-2">
+    <% @planning.recipes.each_with_index do |recipe, i| %>
+      <p><%= "#{days[i]} : #{recipe.name}" %></p>
+    <% end %>
+  </div>
   <%= link_to "View Grocery List", planning_path(@planning),
               class: 'border border-2 p-2 bg-blue-300 border-blue-500 rounded-2xl' %>
 </div>
